@@ -1,5 +1,5 @@
 # thingscale_shockdetect
-shockdetect with WioLTE/ADXL345
+shockdetect with Seeed WioLTE/ADXL345
 
-- Compatible SORACOM Air/Beam (https://soracom.jp)
-- Compatible ThingScale IoT message broker (http://thingscale.io)
+- Compatible with SORACOM Air/Beam (https://soracom.jp)
+- Compatible with ThingScale IoT message broker (http://thingscale.io)
