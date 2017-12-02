@@ -15,8 +15,8 @@
 #define MQTT_SERVER_PORT  (1883)
 
 #define ID                "WioLTE_"
-#define OUT_TOPIC         "<YOUR_DEVICE_TOKEN>/json"
-#define IN_TOPIC          "<YOUR_DEVICE_TOKEN>/<YOUR_SORACOM_IMSI>/subscribe"
+#define OUT_TOPIC         "E64CE564379A0CC8B000CA84CFDD61F2/json"
+#define IN_TOPIC          "E64CE564379A0CC8B000CA84CFDD61F2/440103072674825/subscribe"
 
 #define INTERVAL          (1000)
 //#define SHOCK_INTERVAL    (100)
@@ -41,15 +41,29 @@ void callback(char* topic, byte* payload, unsigned int length) {
   SerialUSB.println("");
   SerialUSB.print("cmd_string:");
   SerialUSB.print(cmd_string);
-  if (cmd_string == "led:on") {
+  if (cmd_string == "mode:1") {
+    // Set activity to insensitivity
     SerialUSB.println("");
-    SerialUSB.println("led:on!!");
-    Wio.LedSetRGB(0, 128, 128);
+    SerialUSB.println("set activity_thresh:50");
+    adxl.setActivityThreshold(50); //default:75
+    char data[100];
+    sprintf(data, "{\"mode\":%lu}", 1);
+    SerialUSB.print("Publish:");
+    SerialUSB.print(data);
+    SerialUSB.println("");
+    MqttClient.publish(OUT_TOPIC, data);
   }
-  if (cmd_string == "led:off") {
+  if (cmd_string == "mode:0") {
+    // Set activity to default
     SerialUSB.println("");
-    SerialUSB.println("led:off");
-    Wio.LedSetRGB(0, 0, 0);
+    SerialUSB.println("set activity_thresh:30");
+    adxl.setActivityThreshold(30); //default:75
+    char data[100];
+    sprintf(data, "{\"mode\":%lu}", 0);
+    SerialUSB.print("Publish:");
+    SerialUSB.print(data);
+    SerialUSB.println("");
+    MqttClient.publish(OUT_TOPIC, data);
   }
 
 }
@@ -66,7 +80,8 @@ void setup() {
   Wio.Init();
   adxl.powerOn(); // ADXL-345 Init
   //set activity/ inactivity thresholds (0-255)
-  adxl.setActivityThreshold(75); //62.5mg per increment
+  //adxl.setActivityThreshold(75); //62.5mg per increment
+  adxl.setActivityThreshold(30); // custom value
   adxl.setInactivityThreshold(75); //62.5mg per increment
   //adxl.setTimeInactivity(10); // how many seconds of no activity is inactive?
   adxl.setTimeInactivity(255); // how many seconds of no activity is inactive?
