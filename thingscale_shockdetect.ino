@@ -15,8 +15,8 @@
 #define MQTT_SERVER_PORT  (1883)
 
 #define ID                "WioLTE_"
-#define OUT_TOPIC         "E64CE564379A0CC8B000CA84CFDD61F2/json"
-#define IN_TOPIC          "E64CE564379A0CC8B000CA84CFDD61F2/440103072674825/subscribe"
+#define OUT_TOPIC         "<YOUR_DEVICE_TOKEN>/json"
+#define IN_TOPIC          "<YOUR_DEVICE_TOKEN>/<YOUR_SORACOM_IMSI>/subscribe"
 
 #define INTERVAL          (1000)
 //#define SHOCK_INTERVAL    (100)
